@@ -27,7 +27,7 @@ colorInput.setAttribute('disabled', 'true');
 const designInput = document.getElementById('design');
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('change', () => {
+designInput.addEventListener('blur', () => {
     const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
     colorInput.removeAttribute('disabled', 'true');
