@@ -19,3 +19,34 @@ const showHideOtherField = () => {
 }
 
 titleInput.addEventListener('change', showHideOtherField);
+
+const colorInput = document.getElementById('color');
+//Color field is disabled on initial page load
+colorInput.setAttribute('disabled', 'true');
+
+const designInput = document.getElementById('design');
+
+//When the design input is changed, only the colors for that design will display in the Color dropdown
+designInput.addEventListener('change', () => {
+    const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
+    const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
+    colorInput.removeAttribute('disabled', 'true');
+    if (designInput.value === 'js puns') {
+        jsPuns.forEach(pun => {
+            pun.hidden = false;
+        });
+
+        heartJS.forEach(heart => {
+            heart.hidden = true;
+        });
+    } else if (designInput.value = 'heart js') {
+        heartJS.forEach(heart => {
+            heart.hidden = false;
+        });
+
+        jsPuns.forEach(pun => {
+            pun.hidden = true;
+        })
+    }
+
+})
