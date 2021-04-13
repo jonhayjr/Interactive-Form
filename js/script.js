@@ -36,7 +36,7 @@ const updateColorSelection = (e) => {
 
     if (inputValue === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.selected = true;
+            pun.hidden = false;
         });
 
         heartJS.forEach(heart => {
@@ -44,14 +44,14 @@ const updateColorSelection = (e) => {
         });
     } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
-            heart.selected = true;
+            heart.hidden = false;
         });
 
         jsPuns.forEach(pun => {
-            pun.style.hidden = true;
+            pun.hidden = true;
         })
     }
 }
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('change', updateColorSelection);
+designInput.addEventListener('click', updateColorSelection);
