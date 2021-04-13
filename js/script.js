@@ -55,3 +55,4 @@ const updateColorSelection = (e) => {
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
 designInput.addEventListener('change', updateColorSelection);
+designInput.addEventListener('touch', updateColorSelection);
