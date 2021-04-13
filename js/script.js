@@ -27,13 +27,13 @@ colorInput.setAttribute('disabled', 'true');
 const designInput = document.getElementById('design');
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('blur', () => {
+designInput.addEventListener('change', () => {
     const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
     colorInput.removeAttribute('disabled', 'true');
     if (designInput.value === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.hidden = false;
+            pun.selected = true;
         });
 
         heartJS.forEach(heart => {
@@ -41,7 +41,7 @@ designInput.addEventListener('blur', () => {
         });
     } else if (designInput.value = 'heart js') {
         heartJS.forEach(heart => {
-            heart.hidden = false;
+            heart.selected = true;
         });
 
         jsPuns.forEach(pun => {
