@@ -40,7 +40,7 @@ const updateColorSelection = (e) => {
         });
 
         heartJS.forEach(heart => {
-            heart.style.visibility = 'hidden';
+            heart.hidden = true;
         });
     } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
@@ -48,7 +48,7 @@ const updateColorSelection = (e) => {
         });
 
         jsPuns.forEach(pun => {
-            pun.style.visibility = 'hidden';
+            pun.hidden = true;
         })
     }
 }
