@@ -10,8 +10,8 @@ otherJobInput.style.display = 'none';
 const titleInput = document.getElementById('title');
 
 //This function shows or hides Other job role input field based on change event.  Field only appears if job role is other.
-const showHideOtherField = () => {
-    if (titleInput.value === 'other') {
+const showHideOtherField = (e) => {
+    if (e.target.value === 'other') {
         otherJobInput.style.display = 'block';
    } else {
         otherJobInput.style.display = 'none';
@@ -26,27 +26,32 @@ colorInput.setAttribute('disabled', 'true');
 
 const designInput = document.getElementById('design');
 
-//When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('change', () => {
+//This function will show colors for related design that is selected.
+const updateColorSelection = (e) => {
     const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
+
+    const inputValue = e.target.value;
     colorInput.removeAttribute('disabled', 'true');
-    if (designInput.value === 'js puns') {
+
+    if (inputValue === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.style.display = '';
+            pun.selected = true;
         });
 
         heartJS.forEach(heart => {
-            heart.style.display = 'none';
+            heart.hidden = true;
         });
-    } else if (designInput.value = 'heart js') {
+    } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
-            heart.style.display = '';
+            heart.selected = true;
         });
 
         jsPuns.forEach(pun => {
-            pun.style.display = 'none';
+            pun.style.hidden = true;
         })
     }
+}
 
-})
+//When the design input is changed, only the colors for that design will display in the Color dropdown
+designInput.addEventListener('change', updateColorSelection);
