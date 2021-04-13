@@ -22,7 +22,7 @@ titleInput.addEventListener('change', showHideOtherField);
 
 const colorInput = document.getElementById('color');
 //Color field is disabled on initial page load
-colorInput.hidden = true;
+colorInput.setAttribute('disabled', 'true');
 
 const designInput = document.getElementById('design');
 
@@ -32,23 +32,27 @@ const updateColorSelection = (e) => {
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
 
     const inputValue = e.target.value;
-    colorInput.hidden = false;
+    colorInput.removeAttribute('disabled', 'true');
 
     if (inputValue === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.selected= true;
+            pun.hidden = false;
+            pun.selected = true;
         });
 
         heartJS.forEach(heart => {
             heart.hidden = true;
+            heart.selected = false;
         });
     } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
+            heart.hidden = false;
             heart.selected = true;
         });
 
         jsPuns.forEach(pun => {
             pun.hidden = true;
+            pun.selected = false;
         })
     }
 }
