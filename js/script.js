@@ -33,19 +33,19 @@ designInput.addEventListener('change', () => {
     colorInput.removeAttribute('disabled', 'true');
     if (designInput.value === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.selected = true;
+            pun.style.display = '';
         });
 
         heartJS.forEach(heart => {
-            heart.hidden = true;
+            heart.style.display = 'none';
         });
     } else if (designInput.value = 'heart js') {
         heartJS.forEach(heart => {
-            heart.selected = true;
+            heart.style.display = '';
         });
 
         jsPuns.forEach(pun => {
-            pun.hidden = true;
+            pun.style.display = 'none';
         })
     }
 
