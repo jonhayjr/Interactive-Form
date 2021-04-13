@@ -59,3 +59,24 @@ const updateColorSelection = (e) => {
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
 designInput.addEventListener('change', updateColorSelection);
+
+const registerActivitiesFieldset = document.getElementById('activities');
+
+///This update total cost based on whether or not checkbox is selected
+const getActivitiesCost = (e) => {
+    const activitiesCost = document.getElementById('activities-cost');
+    //Gets total value from paragraph and removes surrounding text.
+    let currentTotal = parseInt(activitiesCost.innerHTML.replace('Total: $', ''));
+
+    //If checkbox is checked, cost is added.  If checkbox is unchecked, cost is subtracted.
+    if (e.target.nodeName = 'INPUT' && e.target.checked === true) {
+        currentTotal += parseInt(e.target.dataset.cost);
+    } else if (e.target.nodeName = 'INPUT' && e.target.checked === false) {
+        currentTotal -= parseInt(e.target.dataset.cost);
+    }
+    //Adds new total to paragraph text
+    activitiesCost.innerHTML = `Total: $${currentTotal}`;
+}
+
+//When change event occurs in Register Activities Fieldset, getActivitiesCost function is triggered.
+registerActivitiesFieldset.addEventListener('change', getActivitiesCost);
