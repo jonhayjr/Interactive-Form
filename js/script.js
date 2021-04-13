@@ -22,7 +22,7 @@ titleInput.addEventListener('change', showHideOtherField);
 
 const colorInput = document.getElementById('color');
 //Color field is disabled on initial page load
-colorInput.setAttribute('disabled', 'true');
+colorInput.hidden = true;
 
 const designInput = document.getElementById('design');
 
@@ -32,11 +32,11 @@ const updateColorSelection = (e) => {
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
 
     const inputValue = e.target.value;
-    colorInput.removeAttribute('disabled', 'true');
+    colorInput.hidden = false;
 
     if (inputValue === 'js puns') {
         jsPuns.forEach(pun => {
-            pun.hidden = false;
+            pun.selected = true;
         });
 
         heartJS.forEach(heart => {
@@ -44,7 +44,7 @@ const updateColorSelection = (e) => {
         });
     } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
-            heart.hidden = false;
+            heart.selected = true;
         });
 
         jsPuns.forEach(pun => {
@@ -54,4 +54,4 @@ const updateColorSelection = (e) => {
 }
 
 //When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('click', updateColorSelection);
+designInput.addEventListener('change', updateColorSelection);
