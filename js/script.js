@@ -69,9 +69,9 @@ const getActivitiesCost = (e) => {
     let currentTotal = parseInt(activitiesCost.innerHTML.replace('Total: $', ''));
 
     //If checkbox is checked, cost is added.  If checkbox is unchecked, cost is subtracted.
-    if (e.target.nodeName = 'INPUT' && e.target.checked === true) {
+    if (e.target.nodeName ==='INPUT' && e.target.checked === true) {
         currentTotal += parseInt(e.target.dataset.cost);
-    } else if (e.target.nodeName = 'INPUT' && e.target.checked === false) {
+    } else if (e.target.nodeName === 'INPUT' && e.target.checked === false) {
         currentTotal -= parseInt(e.target.dataset.cost);
     }
     //Adds new total to paragraph text
@@ -85,7 +85,30 @@ registerActivitiesFieldset.addEventListener('change', getActivitiesCost);
 const creditCardPayment = document.querySelector('option[value="credit-card"]');
 const paypalDiv = document.getElementById('paypal');
 const bitcoinDiv = document.getElementById('bitcoin');
+const creditCardDiv = document.getElementById('credit-card');
 
 creditCardPayment.selected = true;
 paypalDiv.hidden = true;
 bitcoinDiv.hidden = true;
+
+
+const paymentDropdown = document.getElementById('payment');
+
+//This function shows or hides info on the payment screen based on the payment method that the user selects.  For example, if a user selects credit card, the Paypal and Bitcoin sections will be hidden
+const getPaymentSection = (e) => {
+    if (e.target.value === 'credit-card') {
+        creditCardDiv.hidden = false;
+        paypalDiv.hidden = true;
+        bitcoinDiv.hidden = true;
+    } else if (e.target.value === 'paypal') {
+        creditCardDiv.hidden = true;
+        paypalDiv.hidden = false;
+        bitcoinDiv.hidden = true;
+    } else if (e.target.value === 'bitcoin') {
+        creditCardDiv.hidden = true;
+        paypalDiv.hidden = true;
+        bitcoinDiv.hidden = false;
+    }
+}
+
+paymentDropdown.addEventListener('change', getPaymentSection);
