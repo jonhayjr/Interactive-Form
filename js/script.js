@@ -130,3 +130,24 @@ const isEmailValid = () => {
     const regex = /^[^@.]+[@]\w+\.\w+$/;
    return regex.test(emailInput.value);
 }
+
+//This function checks to make sure at least one activity was selected.
+const isActivitySelected = () => {
+    const activitiesCheckboxes = document.querySelectorAll('#activities input');
+
+    let totalChecked = 0;
+
+    //Loops through each checkbox field to see if it is checked.  If it's checked, 1 is added to the total.
+    activitiesCheckboxes.forEach(activity => {
+        if (activity.checked === true) {
+            totalChecked += 1;
+        }
+    });
+    
+    //If one or more fields is checked, true is returned.  False is returned in all other scenarios.
+    if (totalChecked > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
