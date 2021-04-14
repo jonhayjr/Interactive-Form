@@ -111,4 +111,22 @@ const getPaymentSection = (e) => {
     }
 }
 
+//Listens for user selection on payment dropdown and calls getPaymentSectionFunction
 paymentDropdown.addEventListener('change', getPaymentSection);
+
+//Validates name input.  If name input isn't blank or empty, true is returned.  
+const isNameValid = () => {
+    const nameInput = document.getElementById('name');
+    if (nameInput.value) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//Uses regex to check is email is in valid format
+const isEmailValid = () => {
+    const emailInput = document.getElementById('email');
+    const regex = /^[^@.]+[@]\w+\.\w+$/;
+   return regex.test(emailInput.value);
+}
