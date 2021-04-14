@@ -80,3 +80,12 @@ const getActivitiesCost = (e) => {
 
 //When change event occurs in Register Activities Fieldset, getActivitiesCost function is triggered.
 registerActivitiesFieldset.addEventListener('change', getActivitiesCost);
+
+//Selects CreditCard payment method by default and hides Paypal and Bitcoin sections
+const creditCardPayment = document.querySelector('option[value="credit-card"]');
+const paypalDiv = document.getElementById('paypal');
+const bitcoinDiv = document.getElementById('bitcoin');
+
+creditCardPayment.selected = true;
+paypalDiv.hidden = true;
+bitcoinDiv.hidden = true;
