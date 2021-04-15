@@ -151,3 +151,56 @@ const isActivitySelected = () => {
         return false;
     }
 }
+
+//Checks to make sure that CC number is between 13 and 16 digits.
+const isCCNumberValid = () => {
+    const ccNumber = document.getElementById('cc-num');
+    const regex = /^\d{13,16}$/;
+    return regex.test(ccNumber.value);
+}
+
+//Checks to make sure that zip code is 5 digits
+const isZipValid = () => {
+    const ccZip = document.getElementById('zip');
+    const regex = /^\d{5}$/;
+    return regex.test(ccZip.value);
+}
+
+//Checks to make sure that CCV is 3 digits
+const isCCVValid = () => {
+    const cvv = document.getElementById('cvv');
+    const regex = /^\d{3}$/;
+    return regex.test(cvv.value);
+}
+
+
+const form = document.querySelector('form');
+
+//This function runs various helper functions to check if form is valid.
+const isFormValid = (e) => {
+
+    //If name is invalid, prevents form from being submitted.
+    if (!isNameValid()) {
+        e.preventDefault();
+    }  
+
+    //If email is invalid, prevents form from being submitted.
+    if (!isEmailValid()) {
+        e.preventDefault();
+    }
+
+    //If no activity is selected, prevents form from being submitted
+    if (!isActivitySelected()) {
+        e.preventDefault();
+    }
+
+    const paymentDropdown = document.getElementById('payment');
+    //If payment method of Credit Card is selected and CC Number is invalid or Zip Code is invalid or CCV invalid, prevents from being submitted.
+    if (paymentDropdown.value === 'credit-card' && (!isCCNumberValid() || !isZipValid() || !isCCVValid())) {
+        e.preventDefault();
+    }
+        
+}
+
+//Listens for submit event on form and runs isFormValid function
+form.addEventListener('submit', isFormValid);
