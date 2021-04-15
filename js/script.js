@@ -204,3 +204,23 @@ const isFormValid = (e) => {
 
 //Listens for submit event on form and runs isFormValid function
 form.addEventListener('submit', isFormValid);
+
+//Select all activities checkboxes
+const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+
+//Loop through each activitiesCheckboxes
+registerCheckboxes.forEach(checkbox => {
+    //Add event listener for focus event.  Adds focus class to parent label of checkbox.
+    checkbox.addEventListener('focus', (e) => {
+        const parentLabel = e.target.parentElement;
+        parentLabel.classList.add('focus');
+    });
+    //Add event listener for blur event.  Removes focus class from parent labels
+    checkbox.addEventListener('blur', (e) => {
+        const focusLabel = document.querySelectorAll('label.focus');
+        focusLabel.forEach(label => {
+            label.classList.remove('focus');
+        })
+    });
+});
+
