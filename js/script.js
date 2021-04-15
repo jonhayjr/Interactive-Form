@@ -114,21 +114,42 @@ const getPaymentSection = (e) => {
 //Listens for user selection on payment dropdown and calls getPaymentSectionFunction
 paymentDropdown.addEventListener('change', getPaymentSection);
 
+//If field is valid, this function will add valid class to parent element.  If this field is invalid, the function will add invalid class plus hint.
+const displayValidOrInvalid = (parent, hint, valid) => {
+    if (valid) {
+        parent.classList.add('valid');
+        parent.classList.remove('not-valid');
+        hint.style.display = 'none';
+    } else {
+        parent.classList.add('not-valid');
+        parent.classList.remove('valid');
+        hint.style.display = 'block';
+    }
+}
+
 //Validates name input.  If name input isn't blank or empty, true is returned.  
 const isNameValid = () => {
     const nameInput = document.getElementById('name');
-    if (nameInput.value) {
-        return true;
-    } else {
-        return false;
-    }
+    const isValid = nameInput.value ? true : false;
+    const parentElement = nameInput.parentElement;
+    const hintElement = parentElement.lastElementChild;
+
+   displayValidOrInvalid(parentElement, hintElement, isValid);
+
+    return isValid;
 }
 
 //Uses regex to check is email is in valid format
 const isEmailValid = () => {
     const emailInput = document.getElementById('email');
     const regex = /^[^@.]+[@]\w+\.\w+$/;
-   return regex.test(emailInput.value);
+   const isValid = regex.test(emailInput.value);
+   const parentElement = emailInput.parentElement;
+   const hintElement = parentElement.lastElementChild;
+
+   displayValidOrInvalid(parentElement, hintElement, isValid);
+
+   return isValid;
 }
 
 //This function checks to make sure at least one activity was selected.
@@ -145,32 +166,52 @@ const isActivitySelected = () => {
     });
     
     //If one or more fields is checked, true is returned.  False is returned in all other scenarios.
-    if (totalChecked > 0) {
-        return true;
-    } else {
-        return false;
-    }
+    const isValid = totalChecked > 0 ? true : false;
+    const parentElement = document.getElementById('activities');
+    const hintElement = parentElement.lastElementChild;
+
+    displayValidOrInvalid(parentElement, hintElement, isValid);
+
+    return isValid;
 }
 
 //Checks to make sure that CC number is between 13 and 16 digits.
 const isCCNumberValid = () => {
     const ccNumber = document.getElementById('cc-num');
     const regex = /^\d{13,16}$/;
-    return regex.test(ccNumber.value);
+    const isValid = regex.test(ccNumber.value);
+    const parentElement = ccNumber.parentElement;
+    const hintElement = parentElement.lastElementChild;
+
+    displayValidOrInvalid(parentElement, hintElement, isValid);
+
+    return isValid;
 }
 
 //Checks to make sure that zip code is 5 digits
 const isZipValid = () => {
     const ccZip = document.getElementById('zip');
     const regex = /^\d{5}$/;
-    return regex.test(ccZip.value);
+    const isValid = regex.test(ccZip.value);
+    const parentElement = ccZip.parentElement;
+    const hintElement = parentElement.lastElementChild;
+
+    displayValidOrInvalid(parentElement, hintElement, isValid);
+
+    return isValid;
 }
 
 //Checks to make sure that CCV is 3 digits
 const isCCVValid = () => {
     const cvv = document.getElementById('cvv');
     const regex = /^\d{3}$/;
-    return regex.test(cvv.value);
+    const isValid = regex.test(cvv.value);
+    const parentElement = cvv.parentElement;
+    const hintElement = parentElement.lastElementChild;
+
+   displayValidOrInvalid(parentElement, hintElement, isValid);
+
+    return isValid;
 }
 
 
@@ -196,10 +237,19 @@ const isFormValid = (e) => {
 
     const paymentDropdown = document.getElementById('payment');
     //If payment method of Credit Card is selected and CC Number is invalid or Zip Code is invalid or CCV invalid, prevents from being submitted.
-    if (paymentDropdown.value === 'credit-card' && (!isCCNumberValid() || !isZipValid() || !isCCVValid())) {
+
+    if (!isCCNumberValid() && paymentDropdown.value === 'credit-card') {
         e.preventDefault();
     }
-        
+
+    if(!isZipValid() && paymentDropdown.value === 'credit-card') {
+        e.preventDefault();
+    }
+
+    if (!isCCVValid() && paymentDropdown.value === 'credit-card') {
+        e.preventDefault();
+    }
+     
 }
 
 //Listens for submit event on form and runs isFormValid function
