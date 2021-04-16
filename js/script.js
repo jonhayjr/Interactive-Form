@@ -37,7 +37,8 @@ const updateColorSelection = (e) => {
     if (inputValue === 'js puns') {
         jsPuns.forEach(pun => {
             pun.hidden = false;
-            pun.selected = true;
+            //Select first item in dropdown by default
+            jsPuns[0].selected = true;
         });
 
         heartJS.forEach(heart => {
@@ -47,7 +48,8 @@ const updateColorSelection = (e) => {
     } else if (inputValue === 'heart js') {
         heartJS.forEach(heart => {
             heart.hidden = false;
-            heart.selected = true;
+            //Select first item in dropdown by default
+            heartJS[0].selected = true;
         });
 
         jsPuns.forEach(pun => {
