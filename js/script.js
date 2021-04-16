@@ -145,7 +145,7 @@ const isNameValid = () => {
 //Uses regex to check is email is in valid format
 const isEmailValid = () => {
     const emailInput = document.getElementById('email');
-    const regex = /^[^@.]+[@]\w+\.com$/;
+    const regex = /^[^@.]+[@]\w+\.(com)$/;
    const isValid = regex.test(emailInput.value);
    const parentElement = emailInput.parentElement;
    const hintElement = parentElement.lastElementChild;
@@ -302,6 +302,9 @@ registerCheckboxes.forEach(checkbox => {
 
     //Checks for conflicting events when activity checkbox is updated
     checkbox.addEventListener('change', checkConflictingActivities);
+
+    //Real time validation for Register for Activities section
+    checkbox.addEventListener('change', isActivitySelected);
 });
 
 //Added real-time error messages on Name, Email and CC Fields.  Each input has a keyup event listener that calls the related validation helper function. 
@@ -319,3 +322,4 @@ ccZip.addEventListener('keyup', isZipValid);
 
 const cvv = document.getElementById('cvv');
 cvv.addEventListener('keyup', isCCVValid);
+
