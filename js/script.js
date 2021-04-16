@@ -65,17 +65,19 @@ designInput.addEventListener('change', updateColorSelection);
 const registerActivitiesFieldset = document.getElementById('activities');
 
 ///This update total cost based on whether or not checkbox is selected
-const getActivitiesCost = (e) => {
+const getActivitiesCost = () => {
     const activitiesCost = document.getElementById('activities-cost');
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
     //Gets total value from paragraph and removes surrounding text.
-    let currentTotal = parseInt(activitiesCost.innerHTML.replace('Total: $', ''));
+    let currentTotal = 0;
 
-    //If checkbox is checked, cost is added.  If checkbox is unchecked, cost is subtracted.
-    if (e.target.nodeName ==='INPUT' && e.target.checked === true) {
-        currentTotal += parseInt(e.target.dataset.cost);
-    } else if (e.target.nodeName === 'INPUT' && e.target.checked === false) {
-        currentTotal -= parseInt(e.target.dataset.cost);
-    }
+    //Loops through each checkbox and grabs total from each checked box
+    registerCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            currentTotal += parseInt(checkbox.dataset.cost);
+        }
+    })
+
     //Adds new total to paragraph text
     activitiesCost.innerHTML = `Total: $${currentTotal}`;
 }
@@ -257,10 +259,34 @@ const isFormValid = (e) => {
 //Listens for submit event on form and runs isFormValid function
 form.addEventListener('submit', isFormValid);
 
-//Select all activities checkboxes
-const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+//Prevents multiple checkboxes with the same time from being submitted
+const checkConflictingActivities = (e) => {
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+    const selectedTime = e.target.dataset.dayAndTime;
+    const selectedActivity = e.target.nextElementSibling.innerText;
+    const isChecked = e.target.checked;
+    const parentElement = e.target.parentElement;
+    //Removes disabled class from parent of checked item
+    parentElement.classList.remove('disabled'); 
+    
+   
+    registerCheckboxes.forEach(checkbox => {
+        //Checks for checkboxes with same day and time as the selected checkbox
+        if (checkbox.checked && checkbox.dataset.dayAndTime === selectedTime && checkbox.nextElementSibling.innerText !==   selectedActivity) {
+            //Removes checkbox, adds disabled class and recalculates the activities cost
+            checkbox.checked = false;
+            checkbox.parentElement.classList.add('disabled');
+            getActivitiesCost();
+        } else if (checkbox.checked === false && checkbox.dataset.dayAndTime === selectedTime && isChecked === false) {
+            //If selected item is no longer checked and checkbox is checked, disabled class is removed
+            checkbox.parentElement.classList.remove('disabled');
+        }
+    })
+}
+
 
 //Loop through each activitiesCheckboxes
+const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
 registerCheckboxes.forEach(checkbox => {
     //Add event listener for focus event.  Adds focus class to parent label of checkbox.
     checkbox.addEventListener('focus', (e) => {
@@ -274,5 +300,8 @@ registerCheckboxes.forEach(checkbox => {
             label.classList.remove('focus');
         })
     });
+
+    //Checks for conflicting events when activity checkbox is updated
+    checkbox.addEventListener('change', checkConflictingActivities);
 });
 
