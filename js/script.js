@@ -150,7 +150,18 @@ const isEmailValid = () => {
    const parentElement = emailInput.parentElement;
    const hintElement = parentElement.lastElementChild;
 
+    
    displayValidOrInvalid(parentElement, hintElement, isValid);
+
+   const symbolRegex = /@/;
+   const domainRegex = /@\w+\.(com)/;
+    
+   //Provides conditional error message depending on what part of the email is invalid
+   if (emailInput.value === '') {
+       hintElement.innerHTML = 'This field cannot be blank.  Please enter a valid email.';
+   } else if (!domainRegex.test(emailInput.value) && emailInput.value.charAt(0) !== '@') {
+        hintElement.innerHTML = 'This email must contain a valid domain.  Ex. @gmail.com';
+   } 
 
    return isValid;
 }
