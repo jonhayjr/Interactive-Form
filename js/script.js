@@ -283,8 +283,7 @@ const checkConflictingActivities = (e) => {
     })
 }
 
-
-//Loop through each activitiesCheckboxes
+//Loop through each activities checkbox and add event listeners
 const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
 registerCheckboxes.forEach(checkbox => {
     //Add event listener for focus event.  Adds focus class to parent label of checkbox.
