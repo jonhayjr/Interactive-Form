@@ -1,6 +1,5 @@
-const nameInput = document.getElementById('name');
 //Add focus state to Name field on page load
-nameInput.focus();
+document.getElementById('name').focus();
 
 const otherJobInput = document.getElementById('other-job-role');
 //Other Job input is hidden on page load
@@ -146,7 +145,7 @@ const isNameValid = () => {
 //Uses regex to check is email is in valid format
 const isEmailValid = () => {
     const emailInput = document.getElementById('email');
-    const regex = /^[^@.]+[@]\w+\.\w+$/;
+    const regex = /^[^@.]+[@]\w+\.com$/;
    const isValid = regex.test(emailInput.value);
    const parentElement = emailInput.parentElement;
    const hintElement = parentElement.lastElementChild;
@@ -305,3 +304,18 @@ registerCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', checkConflictingActivities);
 });
 
+//Added real-time error messages on Name, Email and CC Fields.  Each input has a keyup event listener that calls the related validation helper function. 
+const nameInput = document.getElementById('name');
+nameInput.addEventListener('keyup', isNameValid);
+
+const emailInput = document.getElementById('email');
+emailInput.addEventListener('keyup', isEmailValid);
+
+const ccNumber = document.getElementById('cc-num');
+ccNumber.addEventListener('keyup', isCCNumberValid);
+
+const ccZip = document.getElementById('zip');
+ccZip.addEventListener('keyup', isZipValid);
+
+const cvv = document.getElementById('cvv');
+cvv.addEventListener('keyup', isCCVValid);
