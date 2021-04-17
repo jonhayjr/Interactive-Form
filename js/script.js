@@ -1,15 +1,12 @@
 //Add focus state to Name field on page load
 document.getElementById('name').focus();
 
-const otherJobInput = document.getElementById('other-job-role');
 //Other Job input is hidden on page load
-otherJobInput.style.display = 'none';
-
-
-const titleInput = document.getElementById('title');
+document.getElementById('other-job-role').style.display = 'none';
 
 //This function shows or hides Other job role input field based on change event.  Field only appears if job role is other.
 const showHideOtherField = (e) => {
+    const otherJobInput = document.getElementById('other-job-role');
     if (e.target.value === 'other') {
         otherJobInput.style.display = 'block';
    } else {
@@ -17,18 +14,17 @@ const showHideOtherField = (e) => {
    }
 }
 
-titleInput.addEventListener('change', showHideOtherField);
+//Add event listener to job role dropdown on change event and run showHideOtherField function
+document.getElementById('title').addEventListener('change', showHideOtherField);
 
-const colorInput = document.getElementById('color');
-//Color field is disabled on initial page load
-colorInput.setAttribute('disabled', 'true');
-
-const designInput = document.getElementById('design');
+//Shirt color dropdown is disabled on initial page load
+document.getElementById('color').setAttribute('disabled', 'true');
 
 //This function will show colors for related design that is selected.
 const updateColorSelection = (e) => {
     const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
+    const colorInput = document.getElementById('color');
 
     const inputValue = e.target.value;
     colorInput.removeAttribute('disabled', 'true');
@@ -58,10 +54,8 @@ const updateColorSelection = (e) => {
     }
 }
 
-//When the design input is changed, only the colors for that design will display in the Color dropdown
-designInput.addEventListener('change', updateColorSelection);
-
-const registerActivitiesFieldset = document.getElementById('activities');
+//Add event listener to shirt design dropdown.  On change event, updateColorSelection function is run.
+document.getElementById('design').addEventListener('change', updateColorSelection);
 
 ///This update total cost based on whether or not checkbox is selected
 const getActivitiesCost = () => {
@@ -81,24 +75,30 @@ const getActivitiesCost = () => {
     activitiesCost.innerHTML = `Total: $${currentTotal}`;
 }
 
-//When change event occurs in Register Activities Fieldset, getActivitiesCost function is triggered.
-registerActivitiesFieldset.addEventListener('change', getActivitiesCost);
+//When change event occurs in Register Activities Fieldset, getActivitiesCost function runs.
+document.getElementById('activities').addEventListener('change', getActivitiesCost);
 
 //Selects CreditCard payment method by default and hides Paypal and Bitcoin sections
-const creditCardPayment = document.querySelector('option[value="credit-card"]');
-const paypalDiv = document.getElementById('paypal');
-const bitcoinDiv = document.getElementById('bitcoin');
-const creditCardDiv = document.getElementById('credit-card');
+const showCreditCardOnLoad = () => {
+    const creditCardPayment = document.querySelector('option[value="credit-card"]');
+    const paypalDiv = document.getElementById('paypal');
+    const bitcoinDiv = document.getElementById('bitcoin');
+    const creditCardDiv = document.getElementById('credit-card');
 
-creditCardPayment.selected = true;
-paypalDiv.hidden = true;
-bitcoinDiv.hidden = true;
+    creditCardPayment.selected = true;
+    paypalDiv.hidden = true;
+    bitcoinDiv.hidden = true;
+}
 
-
-const paymentDropdown = document.getElementById('payment');
+//Execute showCreditCardOnLoad function
+showCreditCardOnLoad();
 
 //This function shows or hides info on the payment screen based on the payment method that the user selects.  For example, if a user selects credit card, the Paypal and Bitcoin sections will be hidden
 const getPaymentSection = (e) => {
+    const paypalDiv = document.getElementById('paypal');
+    const bitcoinDiv = document.getElementById('bitcoin');
+    const creditCardDiv = document.getElementById('credit-card');
+
     if (e.target.value === 'credit-card') {
         creditCardDiv.hidden = false;
         paypalDiv.hidden = true;
@@ -114,8 +114,8 @@ const getPaymentSection = (e) => {
     }
 }
 
-//Listens for user selection on payment dropdown and calls getPaymentSectionFunction
-paymentDropdown.addEventListener('change', getPaymentSection);
+//Adds event listener to payment method dropdown.  Runs getPaymentSection function on change event.
+document.getElementById('payment').addEventListener('change', getPaymentSection);
 
 //If field is valid, this function will add valid class to parent element.  If this field is invalid, the function will add invalid class plus hint.
 const displayValidOrInvalid = (parent, hint, valid) => {
@@ -228,9 +228,6 @@ const isCCVValid = () => {
     return isValid;
 }
 
-
-const form = document.querySelector('form');
-
 //This function runs various helper functions to check if form is valid.
 const isFormValid = (e) => {
 
@@ -266,8 +263,8 @@ const isFormValid = (e) => {
      
 }
 
-//Listens for submit event on form and runs isFormValid function
-form.addEventListener('submit', isFormValid);
+//Add event listener to form field.  On submit event, fields are validated with isFormValid function
+document.querySelector('form').addEventListener('submit', isFormValid);
 
 //Prevents multiple checkboxes with the same time from being submitted
 const checkConflictingActivities = (e) => {
@@ -294,9 +291,10 @@ const checkConflictingActivities = (e) => {
     })
 }
 
-//Loop through each activities checkbox and add event listeners
-const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
-registerCheckboxes.forEach(checkbox => {
+//This function handles various event listeners for Register Checkboxes
+const handleRegisterCheckboxes = () => {
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+    registerCheckboxes.forEach(checkbox => {
     //Add event listener for focus event.  Adds focus class to parent label of checkbox.
     checkbox.addEventListener('focus', (e) => {
         const parentLabel = e.target.parentElement;
@@ -315,21 +313,29 @@ registerCheckboxes.forEach(checkbox => {
 
     //Real time validation for Register for Activities section
     checkbox.addEventListener('change', isActivitySelected);
-});
+    });
+}
+
+//Executes handleRegisterCheckboxes function
+handleRegisterCheckboxes();
 
 //Added real-time error messages on Name, Email and CC Fields.  Each input has a keyup event listener that calls the related validation helper function. 
-const nameInput = document.getElementById('name');
-nameInput.addEventListener('keyup', isNameValid);
+const handleRealTimeErrorValidation = () => {
+    //Validates name input
+    document.getElementById('name').addEventListener('keyup', isNameValid);
 
-const emailInput = document.getElementById('email');
-emailInput.addEventListener('keyup', isEmailValid);
+    //Validates email input
+    document.getElementById('email').addEventListener('keyup', isEmailValid);
 
-const ccNumber = document.getElementById('cc-num');
-ccNumber.addEventListener('keyup', isCCNumberValid);
+    //Validates CC Number
+    document.getElementById('cc-num').addEventListener('keyup', isCCNumberValid);
 
-const ccZip = document.getElementById('zip');
-ccZip.addEventListener('keyup', isZipValid);
+    //Validates Zip Code
+    document.getElementById('zip').addEventListener('keyup', isZipValid);
 
-const cvv = document.getElementById('cvv');
-cvv.addEventListener('keyup', isCCVValid);
+    //Validates CVV field
+    document.getElementById('cvv').addEventListener('keyup', isCCVValid);
+}
 
+//Executes handleRealTimeErrorValidation function
+handleRealTimeErrorValidation();
