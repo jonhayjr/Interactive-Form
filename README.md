@@ -7,5 +7,5 @@ I added real-time error message validations to the Name, Email, Register for Act
 ## Conditional Error Messages
 I also added show conditional error messages for the email field.  If the the field is empty, the error message states that the field is empty.  If the email contains an invalid domain, the error message states that the domain is invalid and provides an example of a valid domain.
 
-**Click here for a preview**
+**Click below for a preview**\
 http://www.jonhayjr.com/Interactive-Form
