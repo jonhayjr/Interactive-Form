@@ -25,8 +25,9 @@ const updateColorSelection = (e) => {
     const heartJS = document.querySelectorAll('option[data-theme="heart js"]');
     const jsPuns = document.querySelectorAll('option[data-theme="js puns"]')
     const colorInput = document.getElementById('color');
-
     const inputValue = e.target.value;
+
+    //Enables color input field
     colorInput.removeAttribute('disabled', 'true');
 
     if (inputValue === 'js puns') {
@@ -230,6 +231,7 @@ const isCCVValid = () => {
 
 //This function runs various helper functions to check if form is valid.
 const isFormValid = (e) => {
+    const paymentDropdown = document.getElementById('payment');
 
     //If name is invalid, prevents form from being submitted.
     if (!isNameValid()) {
@@ -246,7 +248,6 @@ const isFormValid = (e) => {
         e.preventDefault();
     }
 
-    const paymentDropdown = document.getElementById('payment');
     //If payment method of Credit Card is selected and CC Number is invalid or Zip Code is invalid or CCV invalid, prevents from being submitted.
 
     if (!isCCNumberValid() && paymentDropdown.value === 'credit-card') {
@@ -284,40 +285,65 @@ const checkConflictingActivities = (e) => {
             checkbox.checked = false;
             checkbox.parentElement.classList.add('disabled');
             getActivitiesCost();
-        } else if (checkbox.checked === false && checkbox.dataset.dayAndTime === selectedTime && isChecked === false) {
+        } else if (!checkbox.checked && checkbox.dataset.dayAndTime === selectedTime && !isChecked) {
             //If selected item is no longer checked and checkbox is checked, disabled class is removed
             checkbox.parentElement.classList.remove('disabled');
         }
     })
 }
 
-//This function handles various event listeners for Register Checkboxes
-const handleRegisterCheckboxes = () => {
+//Handles focus event for registration checkboxes
+const handleRegisterCheckboxesFocus = () => {
     const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
     registerCheckboxes.forEach(checkbox => {
-    //Add event listener for focus event.  Adds focus class to parent label of checkbox.
-    checkbox.addEventListener('focus', (e) => {
-        const parentLabel = e.target.parentElement;
-        parentLabel.classList.add('focus');
-    });
-    //Add event listener for blur event.  Removes focus class from parent labels
-    checkbox.addEventListener('blur', (e) => {
-        const focusLabel = document.querySelectorAll('label.focus');
-        focusLabel.forEach(label => {
-            label.classList.remove('focus');
-        })
-    });
-
-    //Checks for conflicting events when activity checkbox is updated
-    checkbox.addEventListener('change', checkConflictingActivities);
-
-    //Real time validation for Register for Activities section
-    checkbox.addEventListener('change', isActivitySelected);
+        //Add event listener for focus event.  Adds focus class to parent label of checkbox.
+        checkbox.addEventListener('focus', (e) => {
+            const parentLabel = e.target.parentElement;
+            parentLabel.classList.add('focus');
+        });
     });
 }
 
-//Executes handleRegisterCheckboxes function
-handleRegisterCheckboxes();
+//Executes handleRegisterCheckboxesFocus function
+handleRegisterCheckboxesFocus();
+
+//Handle blur event for registration checkboxes
+const handleRegisterCheckboxesBlur = () => {
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+    registerCheckboxes.forEach(checkbox => {
+     //Add event listener for blur event.  Removes focus class from parent labels
+        checkbox.addEventListener('blur', (e) => {
+            const focusLabel = document.querySelectorAll('label.focus');
+            focusLabel.forEach(label => {
+                label.classList.remove('focus');
+            });
+        });
+    });
+};
+
+//Executes handleRegisterCheckboxesBlur function
+handleRegisterCheckboxesBlur();
+
+//Handles change event for registrations checkboxes and executes function that checks for selected events with conflicting times
+const handleConflictingTimes = () => {
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+    registerCheckboxes.forEach(checkbox => {
+        //Checks for conflicting events when activity checkbox is updated
+        checkbox.addEventListener('change', checkConflictingActivities);
+    });
+};
+
+//Executes handleConflictingTimes function
+handleConflictingTimes();
+
+//Handles change event for registration checkboxes and runs validation function that checks to see if at least on activity is selected.
+const handleRegistrationValidation = () => {
+    const registerCheckboxes = document.querySelectorAll('#activities input[type="checkbox"');
+    registerCheckboxes.forEach(checkbox => {
+        //Real time validation for Register for Activities section
+        checkbox.addEventListener('change', isActivitySelected);
+    });
+};
 
 //Added real-time error messages on Name, Email and CC Fields.  Each input has a keyup event listener that calls the related validation helper function. 
 const handleRealTimeErrorValidation = () => {
@@ -327,6 +353,9 @@ const handleRealTimeErrorValidation = () => {
     //Validates email input
     document.getElementById('email').addEventListener('keyup', isEmailValid);
 
+    //Validates registration checkboxes
+    handleRegistrationValidation();
+
     //Validates CC Number
     document.getElementById('cc-num').addEventListener('keyup', isCCNumberValid);
 
@@ -335,7 +364,7 @@ const handleRealTimeErrorValidation = () => {
 
     //Validates CVV field
     document.getElementById('cvv').addEventListener('keyup', isCCVValid);
-}
+};
 
 //Executes handleRealTimeErrorValidation function
 handleRealTimeErrorValidation();
