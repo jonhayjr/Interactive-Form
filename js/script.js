@@ -277,18 +277,14 @@ const checkConflictingActivities = (e) => {
     //Removes disabled class from parent of checked item
     parentElement.classList.remove('disabled'); 
     
-   
     registerCheckboxes.forEach(checkbox => {
         //Checks for checkboxes with same day and time as the selected checkbox
-        if (checkbox.checked && checkbox.dataset.dayAndTime === selectedTime && checkbox.nextElementSibling.innerText !==   selectedActivity) {
-            //Removes checkbox, adds disabled class and recalculates the activities cost
+        if (checkbox.dataset.dayAndTime === selectedTime && checkbox.nextElementSibling.innerText !== selectedActivity) {
+            //Unflags checkbox, toggles disabled class, and recalculates cost
             checkbox.checked = false;
-            checkbox.parentElement.classList.add('disabled');
+            checkbox.parentElement.classList.toggle('disabled');
             getActivitiesCost();
-        } else if (!checkbox.checked && checkbox.dataset.dayAndTime === selectedTime && !isChecked) {
-            //If selected item is no longer checked and checkbox is checked, disabled class is removed
-            checkbox.parentElement.classList.remove('disabled');
-        }
+          } 
     })
 }
 
